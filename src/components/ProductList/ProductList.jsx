@@ -23,44 +23,30 @@ export default function ProductList() {
     setBrands(brandsData);
   }, []);
 
+  const filterProduct = () => {
+    // если есть выбранные бренды
+    if (selectedBrands.length > 0) {
+      // преобразуем значения в selectedBrands из строк в числа
+      const selectedBrandIds = selectedBrands.map(brand => parseInt(brand));
+      const filtered = products.filter(product => selectedBrandIds.includes(product.brand));
+      setFilteredProducts(filtered);
+    } else {
+      setFilteredProducts(products);
+    }
+  }
 
-  // // Обработчик события при изменении состояния чекбокса выбора бренда
-  // const handleBrandChange = (event) => {
-  //   const brandId = event.target.value;
-  //   const isChecked = event.target.checked;
-  //
-  //   // Если чекбокс отмечен, добавляем бренд в список выбранных брендов
-  //   // Если чекбокс снят, удаляем бренд из списка выбранных брендов
-  //   setSelectedBrands(prevSelectedBrands => {
-  //     if (isChecked) {
-  //       return [...prevSelectedBrands, brandId];
-  //     } else {
-  //       return prevSelectedBrands.filter(id => id !== brandId);
-  //     }
-  //   });
-  // };
-
-  // Обработчик события для кнопки "Применить"
-  // const handleApplyFilters = () => {
-  //   // Фильтруем продукты на основе выбранных брендов
-  //   const filteredProducts = products.filter(product => selectedBrands.length === 0 || selectedBrands.includes(product.brand));
-  //   setFilteredProducts(filteredProducts);
-  //   setIsFilterApplied(true)
-  // };
-
-  // Обработчик события для кнопки "Сбросить"
-  const handleResetFilters = () => {
-    setSelectedBrands([]);
-    setFilteredProducts([]);
-    setIsFilterApplied(false)
-  };
-
+  useEffect(() => {
+    filterProduct()
+  }, [selectedBrands])
 
   return (
     <>
       <h2>ProductList</h2>
 
       <Filter brands={brands}
+              selectedBrands={selectedBrands}
+              setSelectedBrands={setSelectedBrands}
+              setIsFilterApplied={setIsFilterApplied}
 
       />
 
