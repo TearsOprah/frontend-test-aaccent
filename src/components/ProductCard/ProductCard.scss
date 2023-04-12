@@ -1,9 +1,15 @@
 .card {
-
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  align-items: center;
+  background-color: gray;
+  border-radius: 20px;
 }
 
 .card__image {
-
+  height: 130px;
+  object-fit: contain;
 }
 
 .card__title {
