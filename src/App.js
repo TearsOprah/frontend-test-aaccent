@@ -4,6 +4,8 @@ import ProductList from "./components/ProductList/ProductList";
 import Cart from "./components/Cart/Cart";
 import NotFound from "./components/NotFound/NotFound";
 
+
+
 function App() {
   return (
     <div className='wrapper'>
