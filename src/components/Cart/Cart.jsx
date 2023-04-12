@@ -17,18 +17,18 @@ export default function Cart() {
     localStorage.setItem("cartItems", JSON.stringify(updatedCartItems)); // сохраняем обновленные данные в локальное хранилище
   };
 
-  // функция для уменьшения количества товаров
+// функция для уменьшения количества товаров
   const handleDecreaseQuantity = (itemId) => {
-    const updatedCartItems = cartItems.filter((item) => {
+    const updatedCartItems = cartItems.map((item) => {
       if (item.id === itemId) {
         if (item.quantity > 1) {
           return { ...item, quantity: item.quantity - 1 }; // уменьшаем количество товаров на 1, но не меньше 1
         } else {
-          return false; // удаляем товар из корзины, если количество становится меньше 1
+          return null; // удаляем товар из корзины, если количество становится меньше 1
         }
       }
-      return true;
-    });
+      return item;
+    }).filter(Boolean); // фильтруем null значения, чтобы удалить товар из корзины
     setCartItems(updatedCartItems);
     localStorage.setItem("cartItems", JSON.stringify(updatedCartItems)); // сохраняем обновленные данные в локальное хранилище
   };
