@@ -6,7 +6,7 @@ import Filter from "../Filter/Filter";
 import {useEffect, useState} from "react";
 
 
-export default function ProductList() {
+export default function ProductList({ onAddToCart }) {
 
   const [products, setProducts] = useState([]);
   const [brands, setBrands] = useState([]);
@@ -53,16 +53,16 @@ export default function ProductList() {
       <ul className={'products'}>
         {
           isFilterApplied ?
+
             filteredProducts.map(product => (<ProductCard key={product.id}
-                       title={product.title}
-                       regular_price={product.regular_price}
-                       image={require(`../../assets${product.image}`)}
-                       brand={product.brand}/>))
+                                                          product={product}
+                                                          onAddToCart={onAddToCart}
+                                                          />))
+
             : products.map(product => (<ProductCard key={product.id}
-                       title={product.title}
-                       regular_price={product.regular_price}
-                       image={require(`../../assets${product.image}`)}
-                       brand={product.brand}/>))
+                                                    product={product}
+                                                    onAddToCart={onAddToCart}
+            />))
         }
       </ul>
     </>
