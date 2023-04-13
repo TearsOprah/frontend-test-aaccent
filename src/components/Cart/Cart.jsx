@@ -1,5 +1,7 @@
-import React, {useState} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import {useNavigate} from "react-router-dom";
+import './Cart.scss'
+import closeImg from '../../assets/images/close.svg'
 
 export default function Cart({cartItems,setCartItems}) {
 
@@ -63,6 +65,7 @@ export default function Cart({cartItems,setCartItems}) {
   const handleOrder = async () => {
 
     if (name === '' || phone === '' || cartItems.length === 0) {
+      alert('Не заполнены поля или корзина пустая')
       return;
     }
 
@@ -95,22 +98,54 @@ export default function Cart({cartItems,setCartItems}) {
     }
   };
 
+  const popupRef = useRef();
+
+
+  // закрытие на esc и клик по области
+  useEffect(() => {
+    const handleEscKey = (event) => {
+      if (event.keyCode === 27) {
+        // закрытие попапа при нажатии на клавишу Esc
+        handleClosePopup();
+      }
+    };
+
+    const handleOutsideClick = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        // закрытие попапа при клике вне области попапа
+        handleClosePopup();
+      }
+    };
+
+    if (showPopup) {
+      document.addEventListener("keydown", handleEscKey);
+      document.addEventListener("mousedown", handleOutsideClick);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscKey);
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [showPopup, handleClosePopup]);
+
+
   return (
-    <div>
-      <h3>Корзина</h3>
-      <ul>
+    <div className={'cart'}>
+      <h3 className={'cart__title'}>Корзина</h3>
+      <ul className={'cart__list'}>
         {cartItems.map((item) => (
-          <li key={item.id}>
+          <li className={'cart__item'} key={item.id}>
             {item.title} - {item.regular_price.value} x {item.quantity}
-            <button onClick={() => handleIncreaseQuantity(item.id)}>+</button>
-            <button onClick={() => handleDecreaseQuantity(item.id)}>-</button>
+            <button className={'cart__change-button'} onClick={() => handleIncreaseQuantity(item.id)}>+</button>
+            <button className={'cart__change-button'} onClick={() => handleDecreaseQuantity(item.id)}>-</button>
           </li>
         ))}
       </ul>
-      <p>Стоимость: {calculateTotalPrice().toFixed(2)}</p>
+      <p className={'cart__total-price'}>Стоимость: {calculateTotalPrice().toFixed(2)}</p>
       <div>
-        <label>Имя:</label>
+        <label className={'cart__input-label'}>Ваше имя: </label>
         <input
+          className={'cart__input'}
           type={'text'}
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -118,21 +153,22 @@ export default function Cart({cartItems,setCartItems}) {
         />
       </div>
       <div>
-        <label>Телефон:</label>
+        <label className={'cart__input-label'}>Телефон: </label>
         <input
+          className={'cart__input'}
           type={'text'}
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           required
         />
       </div>
-      <button onClick={handleOrder}>Оформить заказ</button>
+      <button className={'cart__order-button'} onClick={handleOrder}>Оформить заказ</button>
 
       {showPopup && (
         <div className="popup">
-          <div className="popup-content">
-            <h2>{isOrderSuccessful ? 'Заказ успешно оформлен' : 'Ошибка при оформлении заказа'}</h2>
-            <button onClick={handleClosePopup}>Закрыть</button>
+          <div ref={popupRef} className="popup-content">
+            <h2 className={'popup__message'}>{isOrderSuccessful ? 'Заказ успешно оформлен' : 'Ошибка при оформлении заказа'}</h2>
+            <button className={'popup__closer'} onClick={handleClosePopup}><img src={closeImg} alt={'close icon'}/></button>
           </div>
         </div>
       )}
