@@ -6,7 +6,7 @@ import Filter from "../Filter/Filter";
 import {useEffect, useState} from "react";
 
 
-export default function ProductList({ onAddToCart }) {
+export default function ProductList({ onAddToCart, cartItems, setCartItems }) {
 
   const [products, setProducts] = useState([]);
   const [brands, setBrands] = useState([]);
@@ -14,7 +14,7 @@ export default function ProductList({ onAddToCart }) {
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
 
-  const [isFilterApplied, setIsFilterApplied] = useState(false); // Добавляем состояние для флага применения фильтра
+  const [isFilterApplied, setIsFilterApplied] = useState(false); // добавляем состояние для флага применения фильтра
 
   useEffect(() => {
     // загрузка данных продуктов из productsData
@@ -56,11 +56,15 @@ export default function ProductList({ onAddToCart }) {
 
             filteredProducts.map(product => (<ProductCard key={product.id}
                                                           product={product}
+                                                          cartItems={cartItems}
+                                                          setCartItems={setCartItems}
                                                           onAddToCart={onAddToCart}
                                                           />))
 
             : products.map(product => (<ProductCard key={product.id}
                                                     product={product}
+                                                    cartItems={cartItems}
+                                                    setCartItems={setCartItems}
                                                     onAddToCart={onAddToCart}
             />))
         }

@@ -1,27 +1,24 @@
+import React, { useState, useEffect } from "react";
 import './ProductCard.scss'
-import {useState, useEffect} from "react";
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, cartItems, setCartItems }) {
 
   const [isAddedToCart, setIsAddedToCart] = useState(false);
 
   useEffect(() => {
     // проверяем, есть ли товар уже в корзине при загрузке компонента
-    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
     const isProductAlreadyAdded = cartItems.some(item => item.id === product.id);
     setIsAddedToCart(isProductAlreadyAdded);
-  }, [product.id]);
+  }, [cartItems, product.id]);
 
   const handleAddToCart = () => {
     // проверяем, есть ли уже товар в корзине
-    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
     const isProductAlreadyAdded = cartItems.some(item => item.id === product.id);
 
     if (!isProductAlreadyAdded) {
       // если товара нет в корзине, добавляем его в локальное хранилище с количеством 1
       const updatedProduct = { ...product, quantity: 1 }; // Добавляем поле "quantity" со значением 1
-      cartItems.push(updatedProduct);
-      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+      setCartItems([...cartItems, updatedProduct]);
       setIsAddedToCart(true);
     }
   };

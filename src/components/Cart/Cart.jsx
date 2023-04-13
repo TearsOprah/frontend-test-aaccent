@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 
-export default function Cart() {
+export default function Cart({cartItems,setCartItems}) {
 
   // получаем данные корзины из локального хранилища
-  const [cartItems, setCartItems] = useState(JSON.parse(localStorage.getItem("cartItems")) || []);
+  // const [cartItems, setCartItems] = useState(JSON.parse(localStorage.getItem("cartItems")) || []);
 
   // функция для увеличения количества товаров
   const handleIncreaseQuantity = (itemId) => {
