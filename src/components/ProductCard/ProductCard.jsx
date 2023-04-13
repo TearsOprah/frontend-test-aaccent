@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import './ProductCard.scss';
 
 export default function ProductCard({ product, cartItems, setCartItems }) {
-
   const [isAddedToCart, setIsAddedToCart] = useState(false);
 
   useEffect(() => {
@@ -20,6 +19,11 @@ export default function ProductCard({ product, cartItems, setCartItems }) {
       const updatedProduct = { ...product, quantity: 1 }; // Добавляем поле "quantity" со значением 1
       setCartItems([...cartItems, updatedProduct]);
       setIsAddedToCart(true);
+    } else {
+      // если товар уже есть в корзине, удаляем его из локального хранилища
+      const updatedCartItems = cartItems.filter(item => item.id !== product.id);
+      setCartItems(updatedCartItems);
+      setIsAddedToCart(false);
     }
   };
 
@@ -28,8 +32,8 @@ export default function ProductCard({ product, cartItems, setCartItems }) {
       <img className={'card__image'} src={require(`../../assets${product.image}`)} alt={product.title} />
       <h3 className={'card__title'}>{product.title}</h3>
       <p className={'card__price'}>{`Цена: ${product.regular_price.value} ${product.regular_price.currency}`}</p>
-      <button className={'card__button'} onClick={handleAddToCart} disabled={isAddedToCart}>
-        {isAddedToCart ? 'Добавлено' : 'Добавить в корзину'}
+      <button className={`card__button ${isAddedToCart ? 'added-btn' : ''}`} onClick={handleAddToCart}>
+        {isAddedToCart ? 'Удалить' : 'Добавить'}
       </button>
     </li>
   )

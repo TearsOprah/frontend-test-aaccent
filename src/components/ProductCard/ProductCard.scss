@@ -35,3 +35,12 @@
   border-radius: 20px;
   border: none;
 }
+
+.card__button:hover {
+  cursor: pointer;
+  opacity: .8;
+}
+
+.added-btn {
+  background-color: #678a77;
+}
