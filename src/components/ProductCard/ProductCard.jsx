@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import './ProductCard.scss'
+import './ProductCard.scss';
 
 export default function ProductCard({ product, cartItems, setCartItems }) {
 
@@ -27,9 +27,8 @@ export default function ProductCard({ product, cartItems, setCartItems }) {
     <li className={'card'}>
       <img className={'card__image'} src={require(`../../assets${product.image}`)} alt={product.title} />
       <h3 className={'card__title'}>{product.title}</h3>
-      <p className={'card__price'}>{product.regular_price.value}{product.regular_price.currency}</p>
-      <p className={'card__brand'}>{product.brand}</p>
-      <button onClick={handleAddToCart} disabled={isAddedToCart}>
+      <p className={'card__price'}>{`Цена: ${product.regular_price.value} ${product.regular_price.currency}`}</p>
+      <button className={'card__button'} onClick={handleAddToCart} disabled={isAddedToCart}>
         {isAddedToCart ? 'Добавлено' : 'Добавить в корзину'}
       </button>
     </li>

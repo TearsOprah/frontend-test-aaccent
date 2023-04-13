@@ -1,0 +1,23 @@
+.header {
+  position: relative;
+  display: flex;
+  height: 50px;
+  margin: 20px;
+  justify-content: start;
+  gap: 10px;
+}
+
+.header__image {
+  height: 50px;
+}
+
+.header__image:hover {
+  opacity: .8;
+}
+
+.header__counter {
+  position: absolute;
+  margin-top: 18px;
+  font-size: 30px;
+  color: cornflowerblue;
+}

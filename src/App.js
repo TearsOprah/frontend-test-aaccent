@@ -33,9 +33,12 @@ function App() {
   return (
     <div className='wrapper'>
 
-      <header>
-        <Link to={'/'}><img src={homeImg} alt={'home icon'} /></Link>
-        <Link to={'/cart'}><img src={cartImg} alt={'cart icon'}/>{totalCartItemQuantity}</Link>
+      <header className={'header'}>
+        <Link to={'/'}><img className={'header__image'} src={homeImg} alt={'home icon'} /></Link>
+        <Link to={'/cart'}>
+          <img className={'header__image'} src={cartImg} alt={'cart icon'}/>
+          <span className={'header__counter'}>{totalCartItemQuantity}</span>
+        </Link>
       </header>
 
       <Routes>

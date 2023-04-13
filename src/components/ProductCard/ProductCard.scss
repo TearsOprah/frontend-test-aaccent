@@ -1,25 +1,37 @@
 .card {
+  padding: 10px;
   display: flex;
   flex-direction: column;
   width: 200px;
+  height: 300px;
   align-items: center;
-  background-color: gray;
-  border-radius: 20px;
+  border: 1px solid cornflowerblue;
+  border-radius: 25px;
+  justify-content: space-between;
 }
 
 .card__image {
-  height: 130px;
+  height: 150px;
   object-fit: contain;
 }
 
 .card__title {
-
+  font-size: 22px;
 }
 
 .card__price {
-
+  font-size: 18px;
 }
 
 .card__brand {
 
+}
+
+.card__button {
+  padding: 5px 10px;
+  color: white;
+  font-size: 18px;
+  background-color: cornflowerblue;
+  border-radius: 20px;
+  border: none;
 }
