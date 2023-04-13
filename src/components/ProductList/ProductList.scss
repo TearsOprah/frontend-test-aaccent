@@ -27,3 +27,43 @@
   }
 }
 
+.pagination {
+  margin-left: 180px;
+  padding-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  align-items: center;
+
+  @media screen and (max-width: 500px) {
+    margin: 0 auto;
+  }
+}
+
+.page-button {
+  padding: 5px 10px;
+  color: cornflowerblue;
+  font-size: 18px;
+  background-color: white;
+  border: 1px cornflowerblue solid;
+  border-radius: 20px;
+}
+
+.page-button:hover {
+  cursor: pointer;
+  opacity: .8;
+}
+
+.active-page-button {
+  padding: 5px 10px;
+  color: white;
+  font-size: 18px;
+  background-color: cornflowerblue;
+  border-radius: 20px;
+  border: none;
+}
+
+.pagination-title {
+  font-size: 20px;
+}
+
