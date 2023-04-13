@@ -1,9 +1,24 @@
 import React, {useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 export default function Cart({cartItems,setCartItems}) {
 
   const [name, setName] = useState(""); // cостояние для имени
   const [phone, setPhone] = useState(""); // cостояние для телефона
+
+  const [showPopup, setShowPopup] = useState(false);
+  const [isOrderSuccessful, setIsOrderSuccessful] = useState(null);
+
+  const navigate = useNavigate();
+
+  // закрытие попапа
+  const handleClosePopup = () => {
+    setShowPopup(false); // закрытие попапа
+    if (isOrderSuccessful) {
+      setCartItems([]); // очистка корзины только при успешном оформлении заказа
+      navigate('/', {replace: true}); // переадресация на главную страницу
+    }
+  };
 
   // функция для увеличения количества товаров
   const handleIncreaseQuantity = (itemId) => {
@@ -45,35 +60,40 @@ export default function Cart({cartItems,setCartItems}) {
   };
 
   // оформление заказа
-  const handleOrder = () => {
+  const handleOrder = async () => {
+
+    if (name === '' || phone === '' || cartItems.length === 0) {
+      return;
+    }
+
     const orderData = {
       name: name,
       phone: phone,
       items: cartItems,
     };
 
-    // опции запроса
-    const requestOptions = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(orderData)
-    };
-
-    // отправляем POST-запрос на сервер
-    fetch('https://app.aaccent.su/js/confirm.php', requestOptions)
-      .then(response => {
-        if (response.ok) {
-          console.log('Заказ успешно оформлен');
-        } else {
-          console.error('Ошибка при оформлении заказа:', response.statusText);
+    try {
+      const response = await fetch(
+        "https://app.aaccent.su/js/confirm.php",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderData),
         }
-      })
-      .catch(error => {
-        console.error('Ошибка при выполнении запроса:', error);
-      });
-  }
+      );
+      if (response.ok) {
+        setIsOrderSuccessful(true);
+      } else {
+        setIsOrderSuccessful(false);
+      }
+    } catch (error) {
+      console.error("Ошибка при выполнении запроса:", error);
+    } finally {
+      setShowPopup(true);
+    }
+  };
 
   return (
     <div>
@@ -94,6 +114,7 @@ export default function Cart({cartItems,setCartItems}) {
           type={'text'}
           value={name}
           onChange={(e) => setName(e.target.value)}
+          required
         />
       </div>
       <div>
@@ -102,9 +123,20 @@ export default function Cart({cartItems,setCartItems}) {
           type={'text'}
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
+          required
         />
       </div>
       <button onClick={handleOrder}>Оформить заказ</button>
+
+      {showPopup && (
+        <div className="popup">
+          <div className="popup-content">
+            <h2>{isOrderSuccessful ? 'Заказ успешно оформлен' : 'Ошибка при оформлении заказа'}</h2>
+            <button onClick={handleClosePopup}>Закрыть</button>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
