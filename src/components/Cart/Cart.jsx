@@ -1,9 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
 
 export default function Cart({cartItems,setCartItems}) {
 
-  // получаем данные корзины из локального хранилища
-  // const [cartItems, setCartItems] = useState(JSON.parse(localStorage.getItem("cartItems")) || []);
+  const [name, setName] = useState(""); // cостояние для имени
+  const [phone, setPhone] = useState(""); // cостояние для телефона
 
   // функция для увеличения количества товаров
   const handleIncreaseQuantity = (itemId) => {
@@ -33,6 +33,47 @@ export default function Cart({cartItems,setCartItems}) {
     localStorage.setItem("cartItems", JSON.stringify(updatedCartItems)); // сохраняем обновленные данные в локальное хранилище
   };
 
+  // функция для подсчета итоговой цены
+  const calculateTotalPrice = () => {
+    let totalPrice = 0;
+    cartItems.forEach((item) => {
+      const price = item.regular_price.value;
+      const quantity = item.quantity;
+      totalPrice += price * quantity;
+    });
+    return totalPrice;
+  };
+
+  // оформление заказа
+  const handleOrder = () => {
+    const orderData = {
+      name: name,
+      phone: phone,
+      items: cartItems,
+    };
+
+    // опции запроса
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(orderData)
+    };
+
+    // отправляем POST-запрос на сервер
+    fetch('https://app.aaccent.su/js/confirm.php', requestOptions)
+      .then(response => {
+        if (response.ok) {
+          console.log('Заказ успешно оформлен');
+        } else {
+          console.error('Ошибка при оформлении заказа:', response.statusText);
+        }
+      })
+      .catch(error => {
+        console.error('Ошибка при выполнении запроса:', error);
+      });
+  }
 
   return (
     <div>
@@ -46,6 +87,24 @@ export default function Cart({cartItems,setCartItems}) {
           </li>
         ))}
       </ul>
+      <p>Стоимость: {calculateTotalPrice().toFixed(2)}</p>
+      <div>
+        <label>Имя:</label>
+        <input
+          type={'text'}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </div>
+      <div>
+        <label>Телефон:</label>
+        <input
+          type={'text'}
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+        />
+      </div>
+      <button onClick={handleOrder}>Оформить заказ</button>
     </div>
   );
 };
