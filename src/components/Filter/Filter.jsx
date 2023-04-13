@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import './Filter.scss'
 
 export default function Filter({ brands, selectedBrands, setSelectedBrands, setIsFilterApplied }) {
 
@@ -43,27 +44,28 @@ export default function Filter({ brands, selectedBrands, setSelectedBrands, setI
   }, [selectedBrands]);
 
   return (
-    <>
-      <h3>Brands: </h3>
-      <ul>
+    <div className={'filter-container'}>
+      <h3 className={'filter-title'}>Бренды: </h3>
+      <ul className={'filter-list'}>
         {brands.map((brand) => (
-          <li key={brand.id}>
-            <label>
+          <li className={'filter-item'} key={brand.id}>
+            <label className={'checkbox'}>
               <input
                 type={"checkbox"}
                 value={brand.id}
                 onChange={handleCheckboxChange}
               />
+              <span className={'checkmark'}></span>
               {brand.title}
             </label>
           </li>
         ))}
       </ul>
 
-      <div>
-        <button onClick={handleApplyFilters}>Apply</button>
-        <button onClick={handleResetFilters}>Reset</button>
+      <div className={'filter-buttons'}>
+        <button className={'filter-button'} onClick={handleApplyFilters}>Применить</button>
+        <button className={'filter-button'} onClick={handleResetFilters}>Сбросить</button>
       </div>
-    </>
+    </div>
   );
 }

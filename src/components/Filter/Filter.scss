@@ -1,3 +1,75 @@
-.brand_active {
-  border: 1px red solid;
+.filter-container {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 200px;
+}
+
+.filter-title {
+  color: cornflowerblue;
+}
+
+.filter-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.filter-item {
+  list-style-type: none;
+  font-size: 20px;
+}
+
+.filter-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter-button {
+  color: white;
+  font-size: 18px;
+  height: 30px;
+  width: 120px;
+  background-color: cornflowerblue;
+  border-radius: 20px;
+  border: none;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+}
+
+/* Скрытие оригинального чекбокса */
+.checkbox input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Стилизация внешнего вида чекбокса */
+.checkbox .checkmark {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 1px solid cornflowerblue; /* цвет рамки */
+  border-radius: 5px;
+  background-color: #fff; /* цвет фона */
+  margin-right: 10px; /* отступ между чекбоксом и текстом */
+}
+
+/* Стилизация отмеченного чекбокса */
+.checkbox input[type="checkbox"]:checked + .checkmark {
+  background-color: cornflowerblue; /* цвет фона при отмеченном состоянии */
+}
+
+/* Изменение внешнего вида надписи при наведении на нее курсора */
+.checkbox:hover {
+  /* пример стилей для наведения */
+  color: cornflowerblue; /* цвет текста */
+  text-decoration: none; /* подчеркивание текста */
+  cursor: pointer;
 }

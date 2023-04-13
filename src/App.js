@@ -33,8 +33,10 @@ function App() {
   return (
     <div className='wrapper'>
 
-      <Link to={'/'}><img src={homeImg} alt={'home icon'} /></Link>
-      <Link to={'/cart'}><img src={cartImg} alt={'cart icon'}/>{totalCartItemQuantity}</Link>
+      <header>
+        <Link to={'/'}><img src={homeImg} alt={'home icon'} /></Link>
+        <Link to={'/cart'}><img src={cartImg} alt={'cart icon'}/>{totalCartItemQuantity}</Link>
+      </header>
 
       <Routes>
         <Route path={'/'} element={<ProductList cartItems={cartItems} setCartItems={setCartItems} />} />

@@ -40,9 +40,7 @@ export default function ProductList({ onAddToCart, cartItems, setCartItems }) {
   }, [selectedBrands])
 
   return (
-    <>
-      <h2>ProductList</h2>
-
+    <div className={'products-page'}>
       <Filter brands={brands}
               selectedBrands={selectedBrands}
               setSelectedBrands={setSelectedBrands}
@@ -69,6 +67,6 @@ export default function ProductList({ onAddToCart, cartItems, setCartItems }) {
             />))
         }
       </ul>
-    </>
+    </div>
   )
 }

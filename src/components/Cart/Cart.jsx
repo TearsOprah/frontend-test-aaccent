@@ -16,7 +16,7 @@ export default function Cart({cartItems,setCartItems}) {
     setShowPopup(false); // закрытие попапа
     if (isOrderSuccessful) {
       setCartItems([]); // очистка корзины только при успешном оформлении заказа
-      navigate('/', {replace: true}); // переадресация на главную страницу
+      navigate('/', {replace: true}); // переадресация на главную страницу при успешном
     }
   };
 
